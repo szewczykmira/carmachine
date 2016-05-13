@@ -4,6 +4,9 @@ from __future__ import unicode_literals
 from django.db import models
 from django.utils.translation import ugettext as _
 
+from .models_helper import validate_nip, validate_regon
+
+
 class Provider(models.Model):
     name = models.CharField(
             verbose_name=_("Name"),
@@ -13,16 +16,19 @@ class Provider(models.Model):
     telephone = models.CharField(
             verbose_name=_("Telephone"),
             max_length=9)
-    e-mail = models.EmailField(
+    email = models.EmailField(
             verbose_name=_("E-mail address"))
     description = models.TextField(
             verbose_name=_("Descritpion"))
-    # TODO Add nip/regon validator
     nip = models.CharField(
             verbose_name=_("NIP"),
-            null=True, blank=True)
+            max_length=10,
+            null=True, blank=True,
+            validators=[validate_nip])
     regon = models.CharField(
+            max_length=9,
             verbose_name=_("REGON"),
-            null=True, blank=True)
+            null=True, blank=True,
+            validators=[validate_regon])
 
 
