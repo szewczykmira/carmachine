@@ -19,4 +19,3 @@ def validate_regon(regon):
     if not (add % 11) % 10 == int(regon[-1]):
         raise ValidationError(_("It's not valid REGON"))
 
-
