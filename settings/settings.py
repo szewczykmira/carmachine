@@ -20,8 +20,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'provider',
+    'carpart',
     'accounts',
     'order',
+    'repair'
 ]
 
 MIDDLEWARE_CLASSES = [
