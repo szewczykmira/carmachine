@@ -8,6 +8,20 @@ from django.utils.translation import ugettext as _
 class Account(User):
     class Meta:
         proxy = True
+
+    def is_employee(self):
+        try:
+            emp = self.employee
+            return True
+        except:
+            return False
+
+    def is_client(self):
+        try:
+            cli = self.client
+            return True
+        except:
+            return False
     
 
 class Employee(Account):
