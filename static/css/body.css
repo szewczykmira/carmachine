@@ -1,0 +1,22 @@
+body{
+    font-family: Roboto, Helvetica;
+}
+
+.header {
+    height: 100pt;
+    font-size: 150%;
+    padding-top: 15pt;
+}
+
+.bottom-text {
+    position: absolute;
+    bottom: 7%;
+    /*left: 5%;*/
+}
+
+.navbar-link:hover,
+.navbar-link:visited,
+.navbar-link:active,
+.navbar-link:link {
+    background-color: transparent !important;
+}
