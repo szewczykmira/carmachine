@@ -20,3 +20,14 @@ body{
 .navbar-link:link {
     background-color: transparent !important;
 }
+
+.index {
+    background-color: #009688;
+}
+
+.super-info {
+    color: #ffffff;
+    margin: auto;
+    border: 3px solid white;
+    padding: 5%;
+}
