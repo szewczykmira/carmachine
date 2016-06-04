@@ -20,11 +20,13 @@
                         {% trans "Log in" %}
                     </a>
                 </li>
-                <li>
-                    <a href="#" class="navbar-link">
-                        {% trans "Sign up" %}
-                    </a>
-                </li>
+                {% ifnotequal request.get_full_path '/accounts/client/add/' %}
+                    <li>
+                        <a href="{% url 'add_client' %}" class="navbar-link">
+                            {% trans "Sign up" %}
+                        </a>
+                    </li>
+                {% endifnotequal %}
             </ul>
         </div>
     </div>

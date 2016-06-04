@@ -46,3 +46,7 @@ body{
     font-size:12pt;
     min-height: 209px;
 }
+
+.margin-bot {
+    margin-bottom: 5%;
+}

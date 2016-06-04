@@ -1,3 +1,12 @@
 from django.shortcuts import render
+from . import forms
 
-# Create your views here.
+
+def add_user(request, is_client=False):
+    context = {'add_user': True}
+    if is_client:
+        context['form'] = forms.ClientForm()
+    else:
+        context['form'] = forms.EmployeeForm()
+    return render(request, "accounts/add_user.html", context=context)
+
