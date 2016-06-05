@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserChangeForm
 from . import models
 
 
@@ -25,6 +25,15 @@ class AccountForm(forms.ModelForm):
         if not self.cleaned_data.get('password') == pswd2:
             raise forms.ValidationError(_("Passwords doesn't match!"))
         return pswd2
+
+
+class UpdateUserForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(UpdateUserForm, self).__init__(*args, **kwargs)
+
+    class Meta:
+        model = models.Account
+        fields = ['first_name', 'last_name', 'email']
 
 
 class ClientForm(forms.ModelForm):

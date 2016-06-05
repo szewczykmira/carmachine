@@ -82,6 +82,21 @@ def employee_panel(request):
 
 @login_required(login_url='accounts/login')
 def update_account(request):
-    context = {'form': auth_forms.UserChangeForm(request.POST or None,
-                                                 instance=request.user)}
+    context = {
+        'user_form': forms.UpdateUserForm(request.POST or None,
+                                          instance=request.user)}
+    account = models.Account.objects.get_from_user(request.user)
+    if account.is_employee():
+        context['form'] = forms.EmployeeForm(request.POST or None,
+                                             instance=request.user.employee)
+    else:
+        context['form'] = forms.ClientForm(request.POST or None,
+                                           instance=request.user.client)
+
+    if request.POST:
+        if context['user_form'].is_valid() and context['form'].is_valid():
+            user = context['user_form'].save()
+            obj = context['form'].save()
+            messages.success(request, _('Profile edited'))
+            return redirect('accounts_panel')
     return render(request, 'accounts/change_user.html', context)
