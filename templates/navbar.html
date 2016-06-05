@@ -15,18 +15,27 @@
 
         <div class="collapse navbar-collapse" id="nav-collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a href="#" class="navbar-link">
-                        {% trans "Log in" %}
-                    </a>
-                </li>
-                {% ifnotequal request.get_full_path '/accounts/client/add/' %}
+                {% if user.is_authenticated %}
                     <li>
-                        <a href="{% url 'add_client' %}" class="navbar-link">
-                            {% trans "Sign up" %}
+                        <a href="{% url 'logout' %}" class="navbar-link">
+                            {% trans "Log out" %}
                         </a>
                     </li>
-                {% endifnotequal %}
+                {% else %}
+                    <li>
+                        <a href="{% url 'login' %}" class="navbar-link">
+                            {% trans "Log in" %}
+                        </a>
+                    </li>
+                    {% ifnotequal request.get_full_path '/accounts/client/add/' %}
+                        <li>
+                            <a href="{% url 'add_client' %}" class="navbar-link">
+                                {% trans "Sign up" %}
+                            </a>
+                        </li>
+                    {% endifnotequal %}
+                {% endif %}
+
             </ul>
         </div>
     </div>

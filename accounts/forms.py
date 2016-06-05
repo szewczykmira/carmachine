@@ -47,3 +47,9 @@ class EmployeeForm(forms.ModelForm):
             attrs={'class': 'form-control'})
         self.order_fields(['telephone',
                            'address', 'contract_begin'])
+
+
+class AuthenticationForm(forms.Form):
+    username = forms.CharField(label=_("Username"))
+    password = forms.CharField(label=_("Password"),
+                               widget=forms.PasswordInput())
