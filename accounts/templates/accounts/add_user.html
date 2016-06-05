@@ -21,7 +21,8 @@
             {% endif %}
             {% csrf_token %}
             {% for field in form %}
-                <div class="row form-group {% if field.errors %} has-error{% endif %} {% if field.field.required %}required{% endif %}">
+                <div class="row">
+                <div class="form-group {% if field.errors %}has-error{% endif %} {% if field.field.required %}required{% endif %}">
                     <div class="col-md-2 col-md-offset-2 col-lg-2 col-sm-4 col-xs-12">
                         <label class="">
                             {{ field.label }}
@@ -29,16 +30,17 @@
                     </div>
                     <div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
                         {{ field }}
-                        <span class="help-block hint">
-                            {{ field.help_text }}
-                        </span>
                         {% if field.errors %}
-                            <p class="text-danger help-block">
+                            <span class="text-danger">
                                 {{ field.errors|first }}
-                            </p>
+                            </span>
+                        {% else %}
+                            <span class="help-block hint">
+                                {{ field.help_text }}
+                            </span>
                         {% endif %}
                     </div>
-                    <span class="material-input"></span>
+                </div>
                 </div>
             {% endfor %}
             <div class="row text-center">
@@ -62,16 +64,16 @@
         $('input').addClass('form-control');
         $('textarea').addClass('form-control');
         $('input').focus(function(){
-            $(this).parent().parent().toggleClass('is-focused');
+            $(this).parent().parent().addClass('is-focused');
         });
         $('input').focusout(function(){
-            $(this).parent().parent().toggleClass('is-focused');
+            $(this).parent().parent().removeClass('is-focused');
         });
         $('textarea').focus(function(){
-            $(this).parent().parent().toggleClass('is-focused');
+            $(this).parent().parent().addClass('is-focused');
         });
         $('textarea').focusout(function(){
-            $(this).parent().parent().toggleClass('is-focused');
+            $(this).parent().parent().removeClass('is-focused');
         });
     });
     </script>
