@@ -26,7 +26,7 @@ class Account(User):
     
 
 class Employee(models.Model):
-    account = models.OneToOneField(Account, on_delete=models.CASCADE)
+    account = models.OneToOneField(User, on_delete=models.CASCADE)
     contract_begin = models.DateField(
         verbose_name=_("Begin of contract"))
     telephone = models.CharField(
@@ -39,7 +39,7 @@ class Employee(models.Model):
 
 
 class Client(models.Model):
-    account = models.OneToOneField(Account, on_delete=models.CASCADE)
+    account = models.OneToOneField(User, on_delete=models.CASCADE)
     telephone = models.CharField(
         verbose_name=_("Telephone"), max_length=9)
     address = models.TextField(

@@ -22,7 +22,11 @@
         {% block content %}
         {% endblock %}
         <!-- messages -->
+        {% if messages %}
+            {% for message in messages %}
 
+            {% endfor %}
+        {% endif %}
 
 
         <!-- REACT : Temporary we will not use react - maybe in another version
