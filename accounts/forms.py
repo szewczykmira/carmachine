@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth.forms import AuthenticationForm
 from . import models
 
 
@@ -49,7 +50,6 @@ class EmployeeForm(forms.ModelForm):
                            'address', 'contract_begin'])
 
 
-class AuthenticationForm(forms.Form):
-    username = forms.CharField(label=_("Username"))
-    password = forms.CharField(label=_("Password"),
-                               widget=forms.PasswordInput())
+class CustomAuthenticationForm(AuthenticationForm):
+    def confirm_login_allowed(self, user):
+        pass

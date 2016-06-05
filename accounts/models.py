@@ -5,8 +5,12 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
+from . import managers
+
 
 class Account(User):
+    objects = managers.AccountManager()
+
     class Meta:
         proxy = True
 

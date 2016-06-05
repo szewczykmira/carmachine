@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from django.contrib.auth import logout, authenticate, login
+from django.contrib.auth import (logout, authenticate, login,
+                                 forms as auth_forms)
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
-from . import forms
+from django.contrib.auth.decorators import login_required
+from . import forms, models
 
 
 def add_user(request, is_client=False):
@@ -21,6 +23,8 @@ def add_user(request, is_client=False):
                                             user_cd.get('email'),
                                             user_cd.get('password'))
             user.last_name = user_cd.get('last_name')
+            if is_client:
+                user.is_active = True
             user.save()
 
             obj = context['form'].save(commit=False)
@@ -34,13 +38,13 @@ def add_user(request, is_client=False):
 
 
 def login_user(request):
-    context = {'form': forms.AuthenticationForm(request.POST or None)}
+    context = {'form': forms.CustomAuthenticationForm(request.POST or None)}
     if request.POST:
         user = authenticate(username=request.POST['username'],
                             password=request.POST['password'])
         if user:
             login(request, user)
-            return redirect('home_page')
+            return redirect('accounts_panel')
 
         else:
             context['authentication_fail'] = True
@@ -50,3 +54,34 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return redirect('home_page')
+
+
+@login_required(login_url='/accounts/login')
+def panel(request):
+    if request.user.is_superuser:
+        pass
+    account = models.Account.objects.get_from_user(request.user)
+    if account.is_client():
+        return redirect('client_panel')
+    if account.is_employee():
+        return redirect('employee_panel')
+
+
+@login_required(login_url='/accounts/login')
+def client_panel(request):
+    account = models.Account.objects.get_from_user(request.user)
+    if not account.is_client():
+        return redirect('home_page')
+    return render(request, 'accounts/client_panel.html')
+
+
+@login_required(login_url='/accounts/login')
+def employee_panel(request):
+    pass
+
+
+@login_required(login_url='accounts/login')
+def update_account(request):
+    context = {'form': auth_forms.UserChangeForm(request.POST or None,
+                                                 instance=request.user)}
+    return render(request, 'accounts/change_user.html', context)

@@ -21,6 +21,11 @@
                             {% trans "Log out" %}
                         </a>
                     </li>
+                    <li>
+                        <a href="{% url 'accounts_panel' %}" class="navbar-link">
+                            {{ user }}
+                        </a>
+                    </li>
                 {% else %}
                     <li>
                         <a href="{% url 'login' %}" class="navbar-link">
