@@ -25,7 +25,8 @@ class Account(User):
             return False
     
 
-class Employee(Account):
+class Employee(models.Model):
+    account = models.OneToOneField(Account, on_delete=models.CASCADE)
     contract_begin = models.DateField(
         verbose_name=_("Begin of contract"))
     telephone = models.CharField(
@@ -37,7 +38,8 @@ class Employee(Account):
         default=0)
 
 
-class Client(Account):
+class Client(models.Model):
+    account = models.OneToOneField(Account, on_delete=models.CASCADE)
     telephone = models.CharField(
         verbose_name=_("Telephone"), max_length=9)
     address = models.TextField(

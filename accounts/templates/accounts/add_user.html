@@ -20,6 +20,29 @@
                 </div>
             {% endif %}
             {% csrf_token %}
+            {% for field in user_form %}
+                <div class="row">
+                <div class="form-group {% if field.errors %}has-error{% endif %} {% if field.field.required %}required{% endif %}">
+                    <div class="col-md-2 col-md-offset-2 col-lg-2 col-sm-4 col-xs-12">
+                        <label class="">
+                            {{ field.label }}
+                        </label>
+                    </div>
+                    <div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
+                        {{ field }}
+                        {% if field.errors %}
+                            <span class="text-danger">
+                                {{ field.errors|first }}
+                            </span>
+                        {% else %}
+                            <span class="help-block hint">
+                                {{ field.help_text }}
+                            </span>
+                        {% endif %}
+                    </div>
+                </div>
+                </div>
+            {% endfor %}
             {% for field in form %}
                 <div class="row">
                 <div class="form-group {% if field.errors %}has-error{% endif %} {% if field.field.required %}required{% endif %}">
