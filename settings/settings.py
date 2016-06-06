@@ -13,17 +13,20 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # django
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # ours
     'provider',
     'carpart',
     'accounts',
     'order',
-    'repair'
+    'repair',
+    # 3rd party
 ]
 
 MIDDLEWARE_CLASSES = [

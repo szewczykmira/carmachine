@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.forms import AuthenticationForm, UserChangeForm
+from django.contrib.auth.forms import AuthenticationForm
 from . import models
 
 
@@ -53,6 +53,7 @@ class EmployeeForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(EmployeeForm, self).__init__(*args, **kwargs)
+        self.fields['contract_begin'].help_text = 'YYYY-MM-DD'
         self.fields['contract_begin'].widget = forms.DateInput(
             attrs={'class': 'form-control'})
         self.order_fields(['telephone',

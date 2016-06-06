@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from django.contrib.auth import (logout, authenticate, login,
-                                 forms as auth_forms)
+from django.contrib.auth import logout, authenticate, login
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.decorators import login_required
@@ -19,10 +18,11 @@ def add_user(request, is_client=False):
     if request.POST:
         if context['user_form'].is_valid() and context['form'].is_valid():
             user_cd = context['user_form'].cleaned_data
-            user = User.objects.create_user(user_cd.get('first_name'),
+            user = User.objects.create_user(user_cd.get('username'),
                                             user_cd.get('email'),
                                             user_cd.get('password'))
             user.last_name = user_cd.get('last_name')
+            user.first_name = user_cd.get('first_name')
             if is_client:
                 user.is_active = True
             user.save()
@@ -77,7 +77,10 @@ def client_panel(request):
 
 @login_required(login_url='/accounts/login')
 def employee_panel(request):
-    pass
+    account = models.Account.objects.get_from_user(request.user)
+    if not account.is_employee():
+        return redirect('home_page')
+    return render(request, 'accounts/employee_panel.html')
 
 
 @login_required(login_url='accounts/login')
