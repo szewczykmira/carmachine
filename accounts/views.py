@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
+from django.http import Http404, HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import logout, authenticate, login
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.decorators import login_required
 from . import forms, models
+import json
 
 
 def add_user(request, is_client=False):
@@ -59,7 +61,7 @@ def logout_user(request):
 @login_required(login_url='/accounts/login')
 def panel(request):
     if request.user.is_superuser:
-        pass
+        return redirect('admin_panel')
     account = models.Account.objects.get_from_user(request.user)
     if account.is_client():
         return redirect('client_panel')
@@ -83,6 +85,15 @@ def employee_panel(request):
     return render(request, 'accounts/employee_panel.html')
 
 
+@login_required(login_url='/accounts/login')
+def admin_panel(request):
+    if not request.user.is_superuser:
+        return redirect('home_page')
+    context = {
+        'employees': models.Employee.objects.filter(account__is_active=False)}
+    return render(request, 'accounts/admin_panel.html', context)
+
+
 @login_required(login_url='accounts/login')
 def update_account(request):
     context = {
@@ -90,16 +101,39 @@ def update_account(request):
                                           instance=request.user)}
     account = models.Account.objects.get_from_user(request.user)
     if account.is_employee():
-        context['form'] = forms.EmployeeForm(request.POST or None,
-                                             instance=request.user.employee)
+        context['form'] = forms.EmployeeForm(
+            request.POST or None, instance=request.user.employee)
+    elif account.is_superuser:
+        context['form'] = None
     else:
-        context['form'] = forms.ClientForm(request.POST or None,
-                                           instance=request.user.client)
+        context['form'] = forms.ClientForm(
+            request.POST or None, instance=request.user.client)
 
     if request.POST:
+        if context['user_form'].is_valid() and context['form'] is None:
+            user = context['user_form'].save()
+            messages.success(request, _('Profile edited'))
+            return redirect('accounts_panel')
+
         if context['user_form'].is_valid() and context['form'].is_valid():
             user = context['user_form'].save()
             obj = context['form'].save()
             messages.success(request, _('Profile edited'))
             return redirect('accounts_panel')
     return render(request, 'accounts/change_user.html', context)
+
+
+@login_required(login_url='accounts/login')
+def toggle_activate_user(request):
+    if not request.user.is_superuser:
+        raise Http404(_("This is not the road you are looking for!"))
+    if request.method == 'POST' and request.is_ajax():
+        try:
+            account = models.Account.objects.get(id=request.POST['account_id'])
+            account.is_active = not account.is_active
+            account.save()
+            success = True
+        except models.Account.DoesNotExist:
+            success = False
+        return HttpResponse(json.dumps({'success': success}),
+                            content_type='application/json')

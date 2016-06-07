@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="container">
+        <h3 class="text-muted">
+            {% trans 'Account' %}
+        </h3>
+        {% include 'accounts/admin_navbar.html' %}
+        <div class="h3">
+            {% trans 'Unactive employees' %}
+        </div>
+        {% include 'accounts/employee_table.html' %}
+    </div>
+{% endblock %}
+
+{% block script %}
+    {{ block.super }}
+    <script type="text/javascript">
+        var toggle_activate_url = "{% url 'toggle_activate_user' %}";
+        var csrf ='{{ csrf_token }}';
+    </script>
+    <script src="{% static 'js/employee_table.js' %}"></script>
+{% endblock %}
