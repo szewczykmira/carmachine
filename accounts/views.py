@@ -153,3 +153,19 @@ def change_salary(request):
             success = False
         return HttpResponse(json.dumps({'success': success}),
                             content_type='application/json')
+
+
+@login_required(login_url='accounts/login')
+def delete_employee(request):
+    if not request.user.is_superuser:
+        raise Http404(_("This is not the road you are looking for!"))
+    if request.method == 'POST' and request.is_ajax():
+        try:
+            employee = models.Employee.objects.get(
+                id=request.POST['employee_id'])
+            employee.delete()
+            success = True
+        except models.Employee.DoesNotExist:
+            success = False
+        return HttpResponse(json.dumps({'success': success}),
+                            content_type='application/json')

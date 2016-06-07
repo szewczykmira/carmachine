@@ -46,3 +46,20 @@ $('#modalSend').on('click', function(){
     });
     $('#salaryModal').modal('hide');
 });
+
+$('.removeEmployee').on('click', function(){
+    var id = $(this).data('id');
+    $.ajax({
+        type: "POST",
+        url: delete_employee_url,
+        data: {
+            'csrfmiddlewaretoken': csrf,
+            'employee_id': id
+        },
+        success: function(data){
+            if(data.success){
+                $('#employee-'+id).hide();
+            }
+        }
+    })
+});
