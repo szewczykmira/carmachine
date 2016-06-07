@@ -16,6 +16,8 @@ urlpatterns = [
     url(r'^activate/$', views.toggle_activate_user, name='toggle_activate_user'),
     url(r'^salary/change/$', views.change_salary, name='change_salary'),
     url(r'^employee/delete/$', views.delete_employee, name="delete_employee"),
+    url(r'^employee/all/$', views.display_users, {'employee': True}, name='display_employees'),
+    url(r'^client/all/$', views.display_users, name='display_clients'),
     url(r'^password/change/$', password_change,
         {'template_name': 'accounts/password_change.html',
          'post_change_redirect': '/accounts/panel/'}, name='password_change'),

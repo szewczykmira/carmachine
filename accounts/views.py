@@ -94,6 +94,18 @@ def admin_panel(request):
     return render(request, 'accounts/admin_panel.html', context)
 
 
+@login_required(login_url='/accounts/login')
+def display_users(request, employee=False):
+    if not request.user.is_superuser:
+        raise Http404(_("This is not the road you are looking for!"))
+    context = {'employee': employee}
+    if employee:
+        context['employees'] = models.Employee.objects.all()
+    else:
+        context['clients'] = models.Client.objects.all()
+    return render(request, 'accounts/display_users.html', context)
+
+
 @login_required(login_url='accounts/login')
 def update_account(request):
     context = {

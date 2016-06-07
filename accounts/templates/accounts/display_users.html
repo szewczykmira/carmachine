@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block content %}
+    <div class="container">
+        {% include 'accounts/admin_navbar.html' %}
+        {% if employee %}
+            <h3 class="text-muted">
+                {% trans "All employees" %}
+            </h3>
+            {% include 'accounts/employee_table.html' %}
+        {% else %}
+            <h3 class="text-muted">
+                {% trans "All clients" %}
+            </h3>
+            {% include "accounts/clients_table.html" %}
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block script %}
+    {{ block.super }}
+    <script type="text/javascript">
+        var toggle_activate_url = "{% url 'toggle_activate_user' %}";
+        var csrf ='{{ csrf_token }}';
+        var change_salary_url = "{% url 'change_salary' %}";
+        var delete_employee_url = "{% url 'delete_employee' %}";
+    </script>
+    <script src="{% static 'js/employee_table.js' %}"></script>
+{% endblock %}
