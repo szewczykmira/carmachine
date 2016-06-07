@@ -168,14 +168,14 @@ def change_salary(request):
 
 
 @login_required(login_url='accounts/login')
-def delete_employee(request):
+def delete_user(request, employee=False):
     if not request.user.is_superuser:
         raise Http404(_("This is not the road you are looking for!"))
     if request.method == 'POST' and request.is_ajax():
         try:
-            employee = models.Employee.objects.get(
-                id=request.POST['employee_id'])
-            employee.delete()
+            object = models.Employee if employee else models.Client
+            object = object.objects.get(id=request.POST['employee_id'])
+            object.account.delete()
             success = True
         except models.Employee.DoesNotExist:
             success = False

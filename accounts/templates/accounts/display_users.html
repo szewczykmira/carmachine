@@ -22,10 +22,15 @@
 {% block script %}
     {{ block.super }}
     <script type="text/javascript">
+        var delete_url;
         var toggle_activate_url = "{% url 'toggle_activate_user' %}";
         var csrf ='{{ csrf_token }}';
         var change_salary_url = "{% url 'change_salary' %}";
-        var delete_employee_url = "{% url 'delete_employee' %}";
+        {% if employee %}
+            delete_url = "{% url 'delete_employee' %}";
+        {% else %}
+            delete_url = "{% url 'delete_client' %}";
+        {% endif %}
     </script>
     <script src="{% static 'js/employee_table.js' %}"></script>
 {% endblock %}

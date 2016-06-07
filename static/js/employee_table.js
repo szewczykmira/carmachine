@@ -2,6 +2,7 @@
  * Created by mira on 6/6/16.
  */
 
+// Toggle if user is active or not
 $('.active-checkbox').on('click', function(){
     var account_id = $(this).data('id');
     $.ajax({
@@ -52,19 +53,19 @@ $('.removeEmployee').on('click', function(){
     delete_employee_id = $(this).data('id');
 });
 
-$('#modalDelete').on('click', function(){
+$('#deleteModal').on('click', function(){
     $.ajax({
         type: "POST",
-        url: delete_employee_url,
+        url: delete_url,
         data: {
             'csrfmiddlewaretoken': csrf,
             'employee_id': delete_employee_id
         },
         success: function(data){
             if(data.success){
-                $('#employee-'+delete_employee_id).hide();
+                $('#user-'+delete_employee_id).hide();
             }
         }
     });
-    $('#modalDelete').modal('hide');
+    $('#deleteModal').modal('hide');
 });
