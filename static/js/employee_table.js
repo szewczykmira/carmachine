@@ -47,19 +47,24 @@ $('#modalSend').on('click', function(){
     $('#salaryModal').modal('hide');
 });
 
+var delete_employee_id = null;
 $('.removeEmployee').on('click', function(){
-    var id = $(this).data('id');
+    delete_employee_id = $(this).data('id');
+});
+
+$('#modalDelete').on('click', function(){
     $.ajax({
         type: "POST",
         url: delete_employee_url,
         data: {
             'csrfmiddlewaretoken': csrf,
-            'employee_id': id
+            'employee_id': delete_employee_id
         },
         success: function(data){
             if(data.success){
-                $('#employee-'+id).hide();
+                $('#employee-'+delete_employee_id).hide();
             }
         }
-    })
+    });
+    $('#modalDelete').modal('hide');
 });
