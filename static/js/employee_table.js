@@ -21,3 +21,28 @@ $('.active-checkbox').on('click', function(){
         }
     })
 });
+
+var employee_id = null;
+$('.change-salary').on('click', function(){
+    employee_id = $(this).data('id');
+});
+
+$('#modalSend').on('click', function(){
+    var new_salary = $('input[name=salary]').val();
+    $.ajax({
+        type: "POST",
+        url: change_salary_url,
+        data: {
+            'employee_id': employee_id,
+            'new_salary': new_salary,
+            'csrfmiddlewaretoken': csrf
+        },
+        success: function(data){
+            if(data.success){
+                $('span#salary-' + employee_id).text(new_salary);
+                employee_id = null;
+            }
+        }
+    });
+    $('#salaryModal').modal('hide');
+});

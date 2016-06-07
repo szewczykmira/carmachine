@@ -25,8 +25,8 @@ def add_user(request, is_client=False):
                                             user_cd.get('password'))
             user.last_name = user_cd.get('last_name')
             user.first_name = user_cd.get('first_name')
-            if is_client:
-                user.is_active = True
+            # only clients are active from beginning
+            user.is_active = is_client
             user.save()
 
             obj = context['form'].save(commit=False)
@@ -134,6 +134,22 @@ def toggle_activate_user(request):
             account.save()
             success = True
         except models.Account.DoesNotExist:
+            success = False
+        return HttpResponse(json.dumps({'success': success}),
+                            content_type='application/json')
+
+
+@login_required(login_url='accounts/login')
+def change_salary(request):
+    if not request.user.is_superuser:
+        raise Http404(_("This is not the road you are looking for!"))
+    if request.method == 'POST' and request.is_ajax():
+        try:
+            employee = models.Employee.objects.get(id=request.POST['employee_id'])
+            employee.salary = int(request.POST['new_salary'])
+            employee.save()
+            success = True
+        except models.Employee.DoesNotExist:
             success = False
         return HttpResponse(json.dumps({'success': success}),
                             content_type='application/json')
