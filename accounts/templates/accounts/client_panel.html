@@ -7,4 +7,69 @@
             {% trans 'Account' %}
         </h3>
         {% include 'accounts/client_navbar.html' %}
+        <div class="row">
+            <div class="h4 page-header text-muted text-center">
+                {% trans "Your account information" %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-offset-3 col-lg-2 col-md-offset-2 col-md-2 col-sm-4 col-xs-6">
+                <label>
+                    {% trans "Username" %}
+                </label>
+            </div>
+            <div class="col-lg-offset-3 col-lg-2 col-md-offset-2 col-md-2 col-sm-4 col-xs-6">
+                {{ user.username }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-offset-3 col-lg-2 col-md-offset-2 col-md-2 col-sm-4 col-xs-6">
+                <label>
+                    {% trans "First name" %}
+                </label>
+            </div>
+            <div class="col-lg-offset-3 col-lg-2 col-md-offset-2 col-md-2 col-sm-4 col-xs-6">
+                {{ user.first_name }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-offset-3 col-lg-2 col-md-offset-2 col-md-2 col-sm-4 col-xs-6">
+                <label>
+                    {% trans "Last name" %}
+                </label>
+            </div>
+            <div class="col-lg-offset-3 col-lg-2 col-md-offset-2 col-md-2 col-sm-4 col-xs-6">
+                {{ user.last_name }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-offset-3 col-lg-2 col-md-offset-2 col-md-2 col-sm-4 col-xs-6">
+                <label>
+                    {% trans "Email address" %}
+                </label>
+            </div>
+            <div class="col-lg-offset-3 col-lg-2 col-md-offset-2 col-md-2 col-sm-4 col-xs-6">
+                {{ user.email }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-offset-3 col-lg-2 col-md-offset-2 col-md-2 col-sm-4 col-xs-6">
+                <label>
+                    {% trans "Telephone" %}
+                </label>
+            </div>
+            <div class="col-lg-offset-3 col-lg-2 col-md-offset-2 col-md-2 col-sm-4 col-xs-6">
+                {{ user.client.telephone }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-offset-3 col-lg-2 col-md-offset-2 col-md-2 col-sm-4 col-xs-6">
+                <label>
+                    {% trans "Address" %}
+                </label>
+            </div>
+            <div class="col-lg-offset-3 col-lg-2 col-md-offset-2 col-md-2 col-sm-4 col-xs-6">
+                {{ user.client.address }}
+            </div>
+        </div>
 {% endblock %}
