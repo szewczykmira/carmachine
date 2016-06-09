@@ -19,15 +19,20 @@ def home(request):
 
 
 @login_required(login_url='accounts/login')
-def add_part(request):
+def add_part(request, partid=None):
     if Account.objects.get_from_user(request.user).is_client():
         return Http404(_("You are not allowed to be here!"))
-    context = {
-        'form': forms.CarPartForm(request.POST or None)}
+    if partid:
+        part = models.CarPart.objects.get(id=partid)
+        form = forms.CarPartForm(request.POST or None, instance=part)
+    else:
+        form = forms.CarPartForm(request.POST or None)
+    context = {'form': form}
     if request.method == 'POST':
         if context['form'].is_valid():
             part = context['form'].save()
             messages.success(request, _('Part has been added'))
             return redirect('carpart_home')
+        messages.error(request, _("Please review information!"))
 
     return render(request, 'carpart/add_part.html', context)
