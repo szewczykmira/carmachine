@@ -49,7 +49,7 @@ $('#modalSend').on('click', function(){
 });
 
 var delete_employee_id = null;
-$('.removeEmployee').on('click', function(){
+$('.removeObject').on('click', function(){
     delete_employee_id = $(this).data('id');
 });
 
@@ -59,11 +59,11 @@ $('#deleteModal').on('click', function(){
         url: delete_url,
         data: {
             'csrfmiddlewaretoken': csrf,
-            'employee_id': delete_employee_id
+            'object_id': delete_employee_id
         },
         success: function(data){
             if(data.success){
-                $('#user-'+delete_employee_id).hide();
+                $('#object-'+delete_employee_id).hide();
             }
         }
     });

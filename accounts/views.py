@@ -174,10 +174,10 @@ def delete_user(request, employee=False):
     if request.method == 'POST' and request.is_ajax():
         try:
             object = models.Employee if employee else models.Client
-            object = object.objects.get(id=request.POST['employee_id'])
+            object = object.objects.get(id=request.POST['object_id'])
             object.account.delete()
             success = True
-        except models.Employee.DoesNotExist:
+        except object.DoesNotExist:
             success = False
         return HttpResponse(json.dumps({'success': success}),
                             content_type='application/json')

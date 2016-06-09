@@ -51,7 +51,7 @@
                 </tr>
             {% else %}
                 {% for client in clients %}
-                    <tr id="user-{{ client.id }}">
+                    <tr id="object-{{ client.id }}">
                         <td>
                             {{ forloop.counter }}
                         </td>
@@ -77,7 +77,7 @@
                             </label>
                         </td>
                         <td class="text-danger">
-                            <i class="glyphicon glyphicon-trash removeEmployee" data-id="{{ client.id }}" data-toggle="modal" data-target="#deleteModal" title="{% trans "Delete employee" %}"></i>
+                            <i class="glyphicon glyphicon-trash removeObject" data-id="{{ client.id }}" data-toggle="modal" data-target="#deleteModal" title="{% trans "Delete employee" %}"></i>
                         </td>
                     </tr>
                 {% endfor %}

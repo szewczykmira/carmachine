@@ -56,7 +56,7 @@
                 </tr>
             {% else %}
                 {% for employee in employees %}
-                    <tr id="user-{{ employee.id }}">
+                    <tr id="object-{{ employee.id }}">
                         <td>
                             {{ forloop.counter }}
                         </td>
@@ -91,7 +91,7 @@
                             <i class="glyphicon glyphicon-pencil change-salary" data-id="{{ employee.id }}" data-toggle="modal" data-target="#salaryModal"></i>
                         </td>
                         <td class="text-danger">
-                            <i class="glyphicon glyphicon-trash removeEmployee" data-id="{{ employee.id }}" data-toggle="modal" data-target="#deleteModal" title="{% trans "Delete employee" %}"></i>
+                            <i class="glyphicon glyphicon-trash removeObject" data-id="{{ employee.id }}" data-toggle="modal" data-target="#deleteModal" title="{% trans "Delete employee" %}"></i>
                         </td>
                     </tr>
                 {% endfor %}
