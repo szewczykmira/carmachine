@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.db import models
 from django.utils.translation import ugettext as _
 
+
 class CarPart(models.Model):
     name = models.CharField(
             verbose_name=_("Name"),

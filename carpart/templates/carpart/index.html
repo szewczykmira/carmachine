@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+    <div class="container">
+        <h3 class="text-muted">
+            {% trans 'Car parts' %}
+        </h3>
+        {% include 'carpart/navbar.html' %}
+    </div>
+{% endblock %}
