@@ -7,6 +7,7 @@ from django.utils.translation import ugettext as _
 from provider.models import Provider
 from carpart.models import CarPart
 
+
 class Order(models.Model):
     provider = models.ForeignKey(
             Provider,
@@ -22,6 +23,7 @@ class Order(models.Model):
 
     def already_ordered(self):
         return True if self.order_date is not null else False
+
 
 class OrderItem(models.Model):
     cart_part = models.ForeignKey(

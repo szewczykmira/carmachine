@@ -7,6 +7,7 @@ from django.utils.translation import ugettext as _
 from accounts.models import Client, Employee
 from carpart.models import CarPart
 
+
 class Repair(models.Model):
     client = models.ForeignKey(
             Client, 
@@ -24,6 +25,7 @@ class Repair(models.Model):
     description = models.TextField(
             verbose_name=_("Description"), 
             blank=True, null=True)
+
 
 class RepairItem(models.Model):
     carpart = models.ForeignKey(
