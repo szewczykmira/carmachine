@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block content %}
+    <div class="container margin-bot">
+        <div class="row">
+            <div class="col-md-offset-3 col-md-6">
+                <h1 class="text-muted">
+                    {% trans "Create provider" %}
+                </h1>
+            </div>
+        </div>
+        <form method="post">
+            {% if form.non_field_errors %}
+                <div class="alert alert-dismissible alert-danger">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    {{ form.non_field_errors|first }}
+                </div>
+            {% endif %}
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="row">
+                    <div class="form-group {% if field.errors %}has-error{% endif %} {% if field.field.required %}required{% endif %}">
+                        <div class="col-md-2 col-md-offset-2 col-lg-2 col-sm-4 col-xs-12">
+                            <label class="">
+                                {{ field.label }}
+                            </label>
+                        </div>
+                        <div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
+                            {{ field }}
+                            {% if field.errors %}
+                                <span class="text-danger">
+                                    {{ field.errors|first }}
+                                </span>
+                            {% else %}
+                                <span class="help-block hint">
+                                    {{ field.help_text }}
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+                <div class="row text-center">
+                    <button type="submit" class="btn btn-primary btn-raised">
+                        {% trans "Submit" %}
+                    </button>
+                    <a href="{% url 'carpart_home' %}" class="btn btn-default">
+                        {% trans 'Cancel' %}
+                    </a>
+                </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+    $('input').addClass('form-control');
+    $('textarea').addClass('form-control');
+    </script>
+{% endblock %}

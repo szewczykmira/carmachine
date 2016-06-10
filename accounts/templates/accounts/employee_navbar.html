@@ -13,11 +13,18 @@
                     {% trans 'Edit settings' %}
                 </a>
             </li>
-            <li>
-                <a href="{% url "carpart_home" %}">
-                    {% trans 'Carparts' %}
-                </a>
-            </li>
+            {% if user.is_active %}
+                <li>
+                    <a href="{% url "carpart_home" %}">
+                        {% trans 'Carparts' %}
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url "provider_home" %}">
+                        {% trans 'Providers' %}
+                    </a>
+                </li>
+            {% endif %}
         </ul>
     </div>
 </div>
