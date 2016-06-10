@@ -8,9 +8,20 @@
             {% trans 'Car parts' %}
         </h3>
         {% include 'carpart/navbar.html' %}
+        <div class="form-group">
+            <div class="col-md-4 pull-right">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="glyphicon glyphicon-search"></i>
+                    </span>
+                    <input type="text" class="form-control" id="searchInput" placeholder="{% trans "Search" %}" />
+                </div>
+            </div>
+        </div>
         <h3 class="text-muted">
             {% trans "All parts" %}
         </h3>
+
         <div class="table-responsive">
             <div class="alert alert-dismissible alert-danger" id="activation-fail" style="display: none">
                 <button class="close" type="button" data-dismiss="alert">
@@ -24,25 +35,26 @@
                 </button>
                 {% trans "Activation status of client changed" %}
             </div>
+
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
                         <td>
                             {% trans "No" %}
                         </td>
-                        <td>
+                        <td class="sort" data-type="name" data-time="0">
                             {% trans "Name" %}
                         </td>
-                        <td>
+                        <td class="sort" data-type="producent" data-time="0">
                             {% trans 'Producent' %}
                         </td>
                         <td>
                             {% trans "Description" %}
                         </td>
-                        <td>
+                        <td class="sort" data-type="price" data-time="0">
                             {% trans "Price" %}
                         </td>
-                        <td>
+                        <td class="sort" data-type="quantity" data-time="0">
                             {% trans "Quantity" %}
                         </td>
                         <td>
@@ -118,7 +130,9 @@
     <script type="text/javascript">
         var csrf ='{{ csrf_token }}';
         var delete_url = "{% url 'delete_part' %}";
+        var search_url = "{% url 'get_parts' %}";
     </script>
     <script src="{% static 'js/employee_table.js' %}"></script>
     <script src="{% static 'js/delete_object.js' %}"></script>
+    <script src="{% static 'js/search.js' %}"></script>
 {% endblock %}

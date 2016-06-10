@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect
+from django.db.models import Q
 from django.http import Http404, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -55,3 +56,20 @@ def delete_part(request):
             success = False
         return HttpResponse(json.dumps({'success': success}),
                             content_type='application/json')
+
+
+@login_required(login_url='accounts/login')
+def get_parts(request):
+    if Account.objects.get_from_user(request.user).is_client() or\
+            not request.user.is_active:
+        raise Http404(_("This is not the road you are looking for!"))
+    search_val = request.GET['input']
+    objects = models.CarPart.objects.filter(
+        Q(name__icontains=search_val) | Q(producent__icontains=search_val))
+    if bool(request.GET['sort']):
+        objects = objects.order_by(request.GET['sort'])
+    context = {
+        'objects': list(objects.values()),
+        'model': 'carpart'
+    }
+    return HttpResponse(json.dumps(context), content_type='application/json')
