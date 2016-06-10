@@ -11,7 +11,8 @@ import json
 
 @login_required(login_url='accounts/login')
 def home(request):
-    if Account.objects.get_from_user(request.user).is_client():
+    if Account.objects.get_from_user(request.user).is_client() or \
+            not request.user.is_active:
         return Http404(_("You are not allowed to be here!"))
     context = {
         'parts': models.CarPart.objects.all()
@@ -21,7 +22,8 @@ def home(request):
 
 @login_required(login_url='accounts/login')
 def add_part(request, partid=None):
-    if Account.objects.get_from_user(request.user).is_client():
+    if Account.objects.get_from_user(request.user).is_client() or \
+            not request.user.is_active:
         return Http404(_("You are not allowed to be here!"))
     if partid:
         part = models.CarPart.objects.get(id=partid)
@@ -41,7 +43,8 @@ def add_part(request, partid=None):
 
 @login_required(login_url='accounts/login')
 def delete_part(request):
-    if Account.objects.get_from_user(request.user).is_client():
+    if Account.objects.get_from_user(request.user).is_client() or\
+            not request.user.is_active:
         raise Http404(_("This is not the road you are looking for!"))
     if request.method == 'POST' and request.is_ajax():
         try:
