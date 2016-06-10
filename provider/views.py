@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect
-from django.db.models import Q
-from django.http import Http404, HttpResponse
+from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from . import models, forms
 from accounts.models import Account
-import json
+from CarMachine.helper_models import delete_view
 
 
 @login_required(login_url='accounts/login')
@@ -45,15 +44,4 @@ def add_provider(request, provider=None):
 
 @login_required(login_url='accounts/login')
 def delete_provider(request):
-    if Account.objects.get_from_user(request.user).is_client() or\
-            not request.user.is_active:
-        raise Http404(_("This is not the road you are looking for!"))
-    if request.method == 'POST' and request.is_ajax():
-        try:
-            object = models.Provider.objects.get(id=request.POST['object_id'])
-            object.delete()
-            success = True
-        except models.Provider.DoesNotExist:
-            success = False
-        return HttpResponse(json.dumps({'success': success}),
-                            content_type='application/json')
+    return delete_view(request, models.Provider)
