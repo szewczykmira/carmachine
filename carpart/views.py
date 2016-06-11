@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from . import models, forms
+from .helpers import generate_row
 from accounts.models import Account
 import json
 from CarMachine.helper_models import delete_view
@@ -58,8 +59,12 @@ def get_parts(request):
         Q(name__icontains=search_val) | Q(producent__icontains=search_val))
     if bool(request.GET['sort']):
         objects = objects.order_by(request.GET['sort'])
+    row_list = []
+    i = 1
+    for elem in objects:
+        row_list.append(generate_row(elem, i))
+        i += 1
     context = {
-        'objects': list(objects.values()),
-        'model': 'carpart'
+        'objects': row_list,
     }
     return HttpResponse(json.dumps(context), content_type='application/json')

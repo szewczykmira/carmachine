@@ -3,6 +3,7 @@
  */
 
 var searchInput = $('#searchInput');
+var tbody = $('tbody');
 
 searchInput.focus(function(){
     $(this).parent().parent().parent().addClass('is-focused');
@@ -58,10 +59,10 @@ function find(){
         },
         success: function(data){
             var objects = data.objects;
+            tbody.empty();
             for(let i=0; i< objects.length; i++){
-                getProperRow(data.model, objects[i], i);
+                tbody.append(objects[i]);
             }
-            $('tbody').empty();
         }
     })
 
@@ -70,16 +71,3 @@ function find(){
 searchInput.keyup(function() {
   delay(find, 700);
 });
-
-
-function getProperRow(model, object, n){
-    switch(model) {
-        case 'carpart':
-            generateRowCarPart(object, n);
-            break;
-    }
-}
-
-function generateRowCarPart(elem, n){
-    console.log(elem);
-}
