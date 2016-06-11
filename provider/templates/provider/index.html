@@ -30,6 +30,7 @@
                             {% trans "No" %}
                         </td>
                         <td class="sort" data-type="name" data-time="0">
+                            <i class="glyphicon glyphicon-resize-vertical"></i>
                             {% trans "Name" %}
                         </td>
                         <td>
@@ -94,7 +95,7 @@
                                         <i class="glyphicon glyphicon-pencil"></i>
                                     </a>
                                     <span class="text-danger">
-                                        <i class="glyphicon glyphicon-trash removeObject" data-id="{{ object.id }}" data-toggle="modal" data-target="#deleteModal" title="{% trans "Delete employee" %}"></i>
+                                        <i class="glyphicon glyphicon-trash removeObject" data-id="{{ object.id }}" data-toggle="modal" data-target="#deleteModal" title="{% trans "Delete provider" %}"></i>
                                     </span>
                                 </td>
                             </tr>
@@ -129,7 +130,7 @@
     <script type="text/javascript">
         var csrf ='{{ csrf_token }}';
         var delete_url = "{% url 'provider_delete' %}";
-        //var search_url = "{% url 'get_parts' %}";
+        var search_url = "{% url 'provider_search' %}";
     </script>
     <script src="{% static 'js/employee_table.js' %}"></script>
     <script src="{% static 'js/delete_object.js' %}"></script>

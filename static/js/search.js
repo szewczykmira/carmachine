@@ -38,9 +38,6 @@ function toggleSort(elem){
             break;
     }
     $(elem).data('time', (n + 1) % 3);
-    console.log($(elem).data('time'));
-    console.log($(elem).data('type'));
-    
 }
 
 $('.sort').click(function(){

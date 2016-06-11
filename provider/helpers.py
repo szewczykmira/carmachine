@@ -10,33 +10,39 @@ OBJECT_ROW = """<tr id="object-{id}">
         {name}
     </td>
     <td>
-        {producent}
+        {address}
+    </td>
+    <td>
+        {telephone}
+    </td>
+    <td>
+        {email}
     </td>
     <td>
         {description}
     </td>
     <td>
-        {price}
+        {nip}
     </td>
     <td>
-        {quantity}
+        {regon}
     </td>
     <td>
         <a href="{url}">
             <i class="glyphicon glyphicon-pencil"></i>
         </a>
         <span class="text-danger">
-            <i class="glyphicon glyphicon-trash removeObject" data-id="{id}"
-            data-toggle="modal" data-target="#deleteModal" title="{title}"></i>
+            <i class="glyphicon glyphicon-trash removeObject" data-id="{id}" data-toggle="modal" data-target="#deleteModal" title="{title}"></i>
         </span>
     </td>
-</tr>"""
+</tr>
+"""
 
 
 def generate_row(object, counter):
-    url = reverse('carpart_edit', kwargs={'partid': object.id})
+    url = reverse('provider_edit', kwargs={'provider': object.id})
     return OBJECT_ROW.format(
         id=object.id, counter=counter, name=object.name,
-        producent=object.producent, description=object.description,
-        price=object.price, quantity=object.quantity, url=url,
-        title=_("Delete employee"))
+        address=object.address, description=object.description,
+        telephone=object.telephone, email=object.email, url=url,
+        title=_("Delete employee"), nip=object.nip, regon=object.regon)
