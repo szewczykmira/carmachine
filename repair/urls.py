@@ -12,5 +12,5 @@ urlpatterns = [
     #url(r'(?P<order_id>\d+)/delete/$', views.delete_order, name="order_disp_delete"),
     #url(r'item/add/(?P<order_id>\d+)/$', views.add_item, name="order_item_add"),
     url(r'delete/$', views.delete_repair, name="repair_delete"),
-    #url(r'search/$', views.get_orders, name="order_get"),
+    url(r'search/$', views.get_repairs, name="repair_get"),
 ]
