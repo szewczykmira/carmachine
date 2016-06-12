@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from . import models, forms
 from accounts.models import Account
-from CarMachine.helper_views import home_view
+from CarMachine.helper_views import home_view, delete_view
 import json
 
 
@@ -37,3 +37,8 @@ def add_order(request, order_id=None):
         messages.error(request, _("Please review information!"))
 
     return render(request, 'order/add_order.html', context)
+
+
+@login_required(login_url='/accounts/login')
+def delete_order(request):
+    return delete_view(request, models.Order)

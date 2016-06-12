@@ -115,7 +115,7 @@
     {{ block.super }}
     <script type="text/javascript">
         var csrf ='{{ csrf_token }}';
-        var delete_url = "";
+        var delete_url = "{% url 'order_delete' %}";
         var search_url = "";
     </script>
     <script src="{% static 'js/delete_object.js' %}"></script>
