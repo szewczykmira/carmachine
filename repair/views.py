@@ -20,3 +20,26 @@ def home(request, clients=False):
         return render(request, 'repair/index.html', context)
     else:
         return home_view(request, models.Repair, 'repair/index.html')
+
+
+@login_required(login_url='/accounts/login')
+def add_repair(request, repair_id=None):
+    if Account.objects.get_from_user(request.user).is_client() or \
+            not request.user.is_active:
+        return Http404(_("You are not allowed to be here!"))
+
+    if repair_id:
+        repair = get_object_or_404(models.Repair, id=repair_id)
+        form = forms.RepairForm(request.POST or None, instance=repair)
+    else:
+        form = forms.RepairForm(request.POST or None)
+
+    context = {'form': form}
+    if request.method == 'POST':
+        if context['form'].is_valid():
+            repair = context['form'].save()
+            messages.success(request, _('Repair has been added'))
+            return redirect('repair_home')
+        messages.error(request, _("Please review information!"))
+
+    return render(request, 'repair/add_repair.html', context)

@@ -42,7 +42,7 @@ class Employee(models.Model):
         default=0)
 
     def __unicode__(self):
-        return self.account
+        return unicode(self.account)
 
 
 class Client(models.Model):
@@ -53,4 +53,4 @@ class Client(models.Model):
         verbose_name=_("Address"))
 
     def __unicode__(self):
-        return self.account
+        return unicode(self.account)
