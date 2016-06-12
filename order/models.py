@@ -13,7 +13,7 @@ class Order(models.Model):
             Provider,
             verbose_name=_("Provider"))
     price = models.FloatField(
-            verbose_name=_("Price"))
+            verbose_name=_("Price"), default=0)
     order_date = models.DateField(
             verbose_name=_("Order date"), 
             blank=True, null=True)
@@ -23,6 +23,12 @@ class Order(models.Model):
 
     def already_ordered(self):
         return True if self.order_date is not None else False
+
+    def get_items(self):
+        return OrderItem.objects.filter(order=self)
+
+    def calculate(self):
+        return reduce(lambda x, y: x.price+y, list(self.get_items()), 0)
 
 
 class OrderItem(models.Model):

@@ -42,8 +42,14 @@ def add_order(request, order_id=None):
 
 
 @login_required(login_url='/accounts/login')
-def delete_order(request):
-    return delete_view(request, models.Order)
+def delete_order(request, order_id=False):
+    if not order_id:
+        return delete_view(request, models.Order)
+    order = get_object_or_404(models.Order, id=order_id)
+    order.get_items().delete()
+    order.delete()
+    messages.success(request, _("Order has been deleted"))
+    return redirect('order_home')
 
 
 @login_required(login_url='/accounts/login')
@@ -53,7 +59,7 @@ def display_order(request, order_id):
         return Http404(_("You are not allowed to be here!"))
 
     context = {'order': get_object_or_404(models.Order, id=order_id)}
-    context['items'] = models.OrderItem.objects.filter(order=context['order'])
+    context['items'] = context['order'].get_items()
     return render(request, 'order/display_order.html', context)
 
 
