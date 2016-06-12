@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
 from django.http import Http404, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
-from . import models
+from . import models, forms
 from accounts.models import Account
 from CarMachine.helper_views import home_view
 import json
@@ -14,3 +14,26 @@ import json
 @login_required(login_url='/accounts/login')
 def home(request):
     return home_view(request, models.Order, 'order/index.html')
+
+
+@login_required(login_url='/accounts/login')
+def add_order(request, order_id=None):
+    if Account.objects.get_from_user(request.user).is_client() or \
+            not request.user.is_active:
+        return Http404(_("You are not allowed to be here!"))
+
+    if order_id:
+        order = get_object_or_404(models.Order, id=order_id)
+        form = forms.OrderForm(request.POST or None, instance=order)
+    else:
+        form = forms.OrderForm(request.POST or None)
+
+    context = {'form': form}
+    if request.method == 'POST':
+        if context['form'].is_valid():
+            order = context['form'].save()
+            messages.success(request, _('Order has been added'))
+            return redirect('order_home')
+        messages.error(request, _("Please review information!"))
+
+    return render(request, 'order/add_order.html', context)

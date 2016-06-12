@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load staticfiles %}
 {% load i18n %}
 
 {% block content %}
@@ -53,16 +53,5 @@
 
 {% block script %}
     {{ block.super }}
-    <script type="text/javascript">
-    $(document).ready(function(){
-        $('input').addClass('form-control');
-        $('textarea').addClass('form-control');
-        $('input').focus(function(){
-            $(this).parent().parent().addClass('is-focused');
-        });
-        $('input').focusout(function(){
-            $(this).parent().parent().removeClass('is-focused');
-        });
-    });
-    </script>
+    <script src="{% static 'js/field_focus.js' %}"></script>
 {% endblock %}

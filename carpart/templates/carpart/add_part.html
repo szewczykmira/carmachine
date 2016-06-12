@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load staticfiles %}
 {% load i18n %}
 
 {% block content %}
@@ -55,8 +55,6 @@
 {% endblock %}
 
 {% block script %}
-    <script type="text/javascript">
-    $('input').addClass('form-control');
-    $('textarea').addClass('form-control');
-    </script>
+    {{ block.super }}
+    <script src="{% static 'js/field_focus.js' %}"></script>
 {% endblock %}

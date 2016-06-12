@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load staticfiles %}
 {% load i18n %}
 
 {% block content %}
@@ -69,7 +69,7 @@
                 <button type="submit" class="btn btn-primary btn-raised">
                     {% trans "Submit" %}
                 </button>
-                <a href="{% url 'accounts_panel' %}">
+                <a href="{% url 'accounts_panel' %}" class="btn btn-primary">
                     {% trans 'Cancel' %}
                 </a>
             </div>
@@ -79,22 +79,5 @@
 
 {% block script %}
     {{ block.super }}
-    <script type="text/javascript">
-    $(document).ready(function(){
-        $('input').addClass('form-control');
-        $('textarea').addClass('form-control');
-        $('input').focus(function(){
-            $(this).parent().parent().addClass('is-focused');
-        });
-        $('input').focusout(function(){
-            $(this).parent().parent().removeClass('is-focused');
-        });
-        $('textarea').focus(function(){
-            $(this).parent().parent().addClass('is-focused');
-        });
-        $('textarea').focusout(function(){
-            $(this).parent().parent().removeClass('is-focused');
-        });
-    });
-    </script>
+    <script src="{% static 'js/field_focus.js' %}"></script>
 {% endblock %}

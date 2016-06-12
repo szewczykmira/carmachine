@@ -31,4 +31,7 @@ class Provider(models.Model):
             null=True, blank=True,
             validators=[validate_regon])
 
+    def __unicode__(self):
+        return self.name
+
 

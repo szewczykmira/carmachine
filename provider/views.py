@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
 from django.http import Http404, HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -23,7 +23,7 @@ def add_provider(request, provider=None):
             not request.user.is_active:
         return Http404(_("You are not allowed to be here!"))
     if provider:
-        provider = models.Provider.objects.get(id=provider)
+        provider = get_object_or_404(models.Provider, id=provider)
         form = forms.ProviderForm(request.POST or None, instance=provider)
     else:
         form = forms.ProviderForm(request.POST or None)

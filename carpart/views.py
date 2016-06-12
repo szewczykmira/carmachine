@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
 from django.http import Http404, HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -23,7 +23,7 @@ def add_part(request, partid=None):
             not request.user.is_active:
         return Http404(_("You are not allowed to be here!"))
     if partid:
-        part = models.CarPart.objects.get(id=partid)
+        part = get_object_or_404(models.CarPart, id=partid)
         form = forms.CarPartForm(request.POST or None, instance=part)
     else:
         form = forms.CarPartForm(request.POST or None)
