@@ -8,7 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 from . import models, forms
 from .helpers import generate_row
 from accounts.models import Account
-from CarMachine.helper_models import delete_view
+from CarMachine.helper_views import delete_view
 import json
 
 
