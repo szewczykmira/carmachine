@@ -65,7 +65,7 @@
                         </tr>
                     {% else %}
                         {% for object in objects %}
-                            <t id="object-{{ object.id }}">
+                            <tr id="object-{{ object.id }}">
                                 <td>
                                     {{ forloop.counter }}
                                 </td>
@@ -126,7 +126,7 @@
     {{ block.super }}
     <script type="text/javascript">
         var csrf ='{{ csrf_token }}';
-        var delete_url = "";
+        var delete_url = "{% url 'repair_delete' %}";
         var search_url = "";
     </script>
     <script src="{% static 'js/delete_object.js' %}"></script>

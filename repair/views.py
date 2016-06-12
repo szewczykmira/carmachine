@@ -43,3 +43,8 @@ def add_repair(request, repair_id=None):
         messages.error(request, _("Please review information!"))
 
     return render(request, 'repair/add_repair.html', context)
+
+
+@login_required(login_url='/accounts/login')
+def delete_repair(request):
+    return delete_view(request, models.Repair)
