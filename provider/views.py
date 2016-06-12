@@ -8,22 +8,16 @@ from django.utils.translation import ugettext_lazy as _
 from . import models, forms
 from .helpers import generate_row
 from accounts.models import Account
-from CarMachine.helper_views import delete_view
+from CarMachine.helper_views import delete_view, home_view
 import json
 
 
-@login_required(login_url='accounts/login')
+@login_required(login_url='/accounts/login')
 def home(request):
-    if Account.objects.get_from_user(request.user).is_client() or \
-            not request.user.is_active:
-        return Http404(_("You are not allowed to be here!"))
-    context = {
-        'objects': models.Provider.objects.all()
-    }
-    return render(request, 'provider/index.html', context)
+    return home_view(request, models.Provider, 'provider/index.html')
 
 
-@login_required(login_url='accounts/login')
+@login_required(login_url='/accounts/login')
 def add_provider(request, provider=None):
     if Account.objects.get_from_user(request.user).is_client() or \
             not request.user.is_active:
@@ -44,12 +38,12 @@ def add_provider(request, provider=None):
     return render(request, 'provider/provider_add.html', context)
 
 
-@login_required(login_url='accounts/login')
+@login_required(login_url='/accounts/login')
 def delete_provider(request):
     return delete_view(request, models.Provider)
 
 
-@login_required(login_url='accounts/login')
+@login_required(login_url='/accounts/login')
 def get_providers(request):
     if Account.objects.get_from_user(request.user).is_client() or\
             not request.user.is_active:

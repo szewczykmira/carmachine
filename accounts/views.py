@@ -53,6 +53,7 @@ def login_user(request):
     return render(request, "accounts/login.html", context=context)
 
 
+@login_required(login_url='/accounts/login')
 def logout_user(request):
     logout(request)
     return redirect('home_page')
@@ -106,7 +107,7 @@ def display_users(request, employee=False):
     return render(request, 'accounts/display_users.html', context)
 
 
-@login_required(login_url='accounts/login')
+@login_required(login_url='/accounts/login')
 def update_account(request):
     context = {
         'user_form': forms.UpdateUserForm(request.POST or None,
@@ -135,7 +136,7 @@ def update_account(request):
     return render(request, 'accounts/change_user.html', context)
 
 
-@login_required(login_url='accounts/login')
+@login_required(login_url='/accounts/login')
 def toggle_activate_user(request):
     if not request.user.is_superuser:
         raise Http404(_("This is not the road you are looking for!"))
@@ -151,7 +152,7 @@ def toggle_activate_user(request):
                             content_type='application/json')
 
 
-@login_required(login_url='accounts/login')
+@login_required(login_url='/accounts/login')
 def change_salary(request):
     if not request.user.is_superuser:
         raise Http404(_("This is not the road you are looking for!"))
@@ -167,7 +168,7 @@ def change_salary(request):
                             content_type='application/json')
 
 
-@login_required(login_url='accounts/login')
+@login_required(login_url='/accounts/login')
 def delete_user(request, employee=False):
     if not request.user.is_superuser:
         raise Http404(_("This is not the road you are looking for!"))

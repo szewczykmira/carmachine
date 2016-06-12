@@ -9,21 +9,15 @@ from . import models, forms
 from .helpers import generate_row
 from accounts.models import Account
 import json
-from CarMachine.helper_views import delete_view
+from CarMachine.helper_views import delete_view, home_view
 
 
-@login_required(login_url='accounts/login')
+@login_required(login_url='/accounts/login')
 def home(request):
-    if Account.objects.get_from_user(request.user).is_client() or \
-            not request.user.is_active:
-        return Http404(_("You are not allowed to be here!"))
-    context = {
-        'parts': models.CarPart.objects.all()
-    }
-    return render(request, 'carpart/index.html', context)
+    return home_view(request, models.CarPart, 'carpart/index.html')
 
 
-@login_required(login_url='accounts/login')
+@login_required(login_url='/accounts/login')
 def add_part(request, partid=None):
     if Account.objects.get_from_user(request.user).is_client() or \
             not request.user.is_active:
@@ -44,12 +38,12 @@ def add_part(request, partid=None):
     return render(request, 'carpart/add_part.html', context)
 
 
-@login_required(login_url='accounts/login')
+@login_required(login_url='/accounts/login')
 def delete_part(request):
     return delete_view(request, models.CarPart)
 
 
-@login_required(login_url='accounts/login')
+@login_required(login_url='/accounts/login')
 def get_parts(request):
     if Account.objects.get_from_user(request.user).is_client() or\
             not request.user.is_active:

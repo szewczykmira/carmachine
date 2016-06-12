@@ -52,14 +52,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% if not parts %}
+                    {% if not objects %}
                         <tr>
                             <td colspan="7">
                                 {% trans 'Nothing to show' %}
                             </td>
                         </tr>
                     {% else %}
-                        {% for part in parts %}
+                        {% for part in objects %}
                             <tr id="object-{{ part.id }}">
                                 <td>
                                     {{ forloop.counter }}

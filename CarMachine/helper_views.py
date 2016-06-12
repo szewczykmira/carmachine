@@ -1,9 +1,21 @@
 # -*- coding: utf-8 -*-
 
 from django.http import Http404, HttpResponse
+from django.shortcuts import render
 from django.utils.translation import ugettext_lazy as _
 from accounts.models import Account
 import json
+
+
+def home_view(request, model, template):
+    if Account.objects.get_from_user(request.user).is_client() or \
+            not request.user.is_active:
+        return Http404(_("You are not allowed to be here!"))
+
+    context = {
+        'objects': model.objects.all()
+    }
+    return render(request, template, context)
 
 
 def delete_view(request, model):
