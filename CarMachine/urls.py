@@ -27,4 +27,5 @@ urlpatterns = [
     url(r'^parts/', include('carpart.urls')),
     url(r'^provider/', include('provider.urls')),
     url(r'^order/', include('order.urls')),
+    url(r'^repair/', include('repair.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

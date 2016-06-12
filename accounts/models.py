@@ -41,6 +41,9 @@ class Employee(models.Model):
         verbose_name=_("Salary"),
         default=0)
 
+    def __unicode__(self):
+        return self.account
+
 
 class Client(models.Model):
     account = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -48,3 +51,6 @@ class Client(models.Model):
         verbose_name=_("Telephone"), max_length=9)
     address = models.TextField(
         verbose_name=_("Address"))
+
+    def __unicode__(self):
+        return self.account
