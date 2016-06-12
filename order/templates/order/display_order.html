@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="container">
+        <h3 class="text-muted">
+            {% trans "Object detail" %}
+        </h3>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li>
+                        <a href="{% url 'order_edit' order.id %}">
+                            {% trans 'Edit order' %}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            {% trans "Add item to order" %}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            {% trans "Delete order" %}
+                        </a>
+                    </li>
+                    <li class="pull-left">
+                        <a href="{% url 'order_home' %}">
+                            {% trans "Orders" %}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <h3 class="text-muted">
+            {% trans "Order information" %}
+        </h3>
+        <!-- Order details -->
+        <div class="row">
+            <div class="col-lg-offset-3 col-lg-2 col-md-offset-2 col-md-2 col-sm-4 col-xs-6">
+                <label>
+                    {% trans "Provider" %}
+                </label>
+            </div>
+            <div class="col-lg-offset-3 col-lg-2 col-md-offset-2 col-md-2 col-sm-4 col-xs-6">
+                {{ order.provider }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-offset-3 col-lg-2 col-md-offset-2 col-md-2 col-sm-4 col-xs-6">
+                <label>
+                    {% trans "Price" %}
+                </label>
+            </div>
+            <div class="col-lg-offset-3 col-lg-2 col-md-offset-2 col-md-2 col-sm-4 col-xs-6">
+                {{ order.price }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-offset-3 col-lg-2 col-md-offset-2 col-md-2 col-sm-4 col-xs-6">
+                <label>
+                    {% trans "Order date" %}
+                </label>
+            </div>
+            <div class="col-lg-offset-3 col-lg-2 col-md-offset-2 col-md-2 col-sm-4 col-xs-6">
+                {{ order.order_date }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-offset-3 col-lg-2 col-md-offset-2 col-md-2 col-sm-4 col-xs-6">
+                <label>
+                    {% trans "Date of receipt" %}
+                </label>
+            </div>
+            <div class="col-lg-offset-3 col-lg-2 col-md-offset-2 col-md-2 col-sm-4 col-xs-6">
+                {{ order.receipt_date }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
