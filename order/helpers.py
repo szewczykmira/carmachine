@@ -31,6 +31,20 @@ OBJECT_ROW = """<tr id="object-{id}">
 </tr>
 """
 
+ITEM_ROW = """<tr>
+    <td>
+        {counter}
+    </td>
+    <td>
+        {car_part}
+    </td>
+    <td>
+        {price}
+    </td>
+    <td></td>
+</tr>
+"""
+
 
 def generate_row_order(object, counter):
     url_edit = reverse('order_edit', kwargs={'order_id': object.id})
@@ -40,3 +54,8 @@ def generate_row_order(object, counter):
         price=object.price, order_date=object.order_date,
         receipt_date=object.receipt_date, url_edit=url_edit,
         title=_("Delete order"), provider=object.provider)
+
+
+def generate_row_item(object, counter):
+    return ITEM_ROW.format(counter=counter, car_part=object.car_part,
+                           price=object.price)

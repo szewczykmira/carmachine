@@ -28,7 +28,8 @@ class Order(models.Model):
         return OrderItem.objects.filter(order=self)
 
     def calculate(self):
-        return reduce(lambda x, y: x.price+y, list(self.get_items()), 0)
+        self.price = reduce(lambda x, y: x.price+y, list(self.get_items()), 0)
+        self.save()
 
 
 class OrderItem(models.Model):

@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from . import models, forms
-from .helpers import generate_row_order
+from .helpers import generate_row_order, generate_row_item
 from accounts.models import Account
 from CarMachine.helper_views import home_view, delete_view
 import json
@@ -60,6 +60,7 @@ def display_order(request, order_id):
 
     context = {'order': get_object_or_404(models.Order, id=order_id)}
     context['items'] = context['order'].get_items()
+    context['form'] = forms.OrderItemForm()
     return render(request, 'order/display_order.html', context)
 
 
@@ -81,3 +82,24 @@ def get_orders(request):
         'objects': row_list,
     }
     return HttpResponse(json.dumps(context), content_type='application/json')
+
+
+@login_required(login_url='/accounts/login')
+def add_item(request, order_id):
+    if Account.objects.get_from_user(request.user).is_client() or\
+            not request.user.is_active:
+        raise Http404(_("This is not the road you are looking for!"))
+    if request.method == 'POST' and request.is_ajax():
+        order = get_object_or_404(models.Order, pk=order_id)
+        form = forms.OrderItemForm(request.POST)
+        if form.is_valid():
+            item = form.save()
+            item.order = order
+            item.save()
+            order.calculate()
+            context = {'row': generate_row_item(item, order.get_items().count),
+                       'price': order.price,
+                       'success': True}
+        context = {'success': False}
+
+    return HttpResponse(json.dumps(context), content_type='appliaction/json')
