@@ -22,7 +22,7 @@ class Order(models.Model):
             blank=True, null=True)
 
     def already_ordered(self):
-        return True if self.order_date is not null else False
+        return True if self.order_date is not None else False
 
 
 class OrderItem(models.Model):

@@ -28,16 +28,13 @@ function toggleSort(elem){
     let name = $(elem).data('type');
     switch(n){
         case 0:
-            sortBy = null;
-            break;
-        case 1:
             sortBy = name;
             break;
-        case 2:
+        case 1:
             sortBy = "-" + name;
             break;
     }
-    $(elem).data('time', (n + 1) % 3);
+    $(elem).data('time', (n + 1) % 2);
 }
 
 $('.sort').click(function(){
