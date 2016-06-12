@@ -18,3 +18,6 @@ class CarPart(models.Model):
             verbose_name=_("Price"))
     quantity = models.PositiveIntegerField(
             verbose_name=_("Quantity"))
+
+    def __unicode__(self):
+        return u"%s ( %s )" % (self.name, self.producent)

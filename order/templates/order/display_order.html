@@ -78,5 +78,53 @@
                 {{ order.receipt_date }}
             </div>
         </div>
+
+        <!-- Order items -->
+        <h3 class="text-muted">
+            {% trans "Order items" %}
+        </h3>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            {% trans "No" %}
+                        </th>
+                        <th>
+                            {% trans "Car part" %}
+                        </th>
+                        <th>
+                            {% trans "Price" %}
+                        </th>
+                        <th>
+                            {% trans "Actions" %}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if not items %}
+                        <tr>
+                            <td colspan="4">
+                                {% trans "No info to show" %}
+                            </td>
+                        </tr>
+                    {% else %}
+                        {% for item in items %}
+                            <tr>
+                                <td>
+                                    {{ forloop.counter }}
+                                </td>
+                                <td>
+                                    {{ item.car_part }}
+                                </td>
+                                <td>
+                                    {{ item.price }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
     </div>
 {% endblock %}

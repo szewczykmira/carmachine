@@ -53,6 +53,7 @@ def display_order(request, order_id):
         return Http404(_("You are not allowed to be here!"))
 
     context = {'order': get_object_or_404(models.Order, id=order_id)}
+    context['items'] = models.OrderItem.objects.filter(order=context['order'])
     return render(request, 'order/display_order.html', context)
 
 
