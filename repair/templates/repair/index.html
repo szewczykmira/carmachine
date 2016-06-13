@@ -88,12 +88,14 @@
                                     {{ object.description }}
                                 </td>
                                 <td>
+                                    {% if not request.user.client %}
                                     <a href="{% url 'repair_edit' object.id %}">
                                         <i class="glyphicon glyphicon-pencil"></i>
                                     </a>
                                     <span class="text-danger">
                                         <i class="glyphicon glyphicon-trash removeObject" data-id="{{ object.id }}" data-toggle="modal" data-target="#deleteModal" title="{% trans "Delete repair" %}"></i>
                                     </span>
+                                    {% endif %}
                                 </td>
                             </tr>
                         {% endfor %}
