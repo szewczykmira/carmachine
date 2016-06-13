@@ -149,45 +149,45 @@
         </div>
     </div>
 
-    <div class="modal fade" id="addItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="width: 100%">
+    <div class="modal fade" id="addItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">{% trans "Add item to order" %}</h4>
                 </div>
-                    <div class="modal-body">
-                        <form method="post" action="{% url 'order_item_add' order.id %}" id="addItem">
-                    {% for field in form %}
+                <div class="modal-body">
+                    <form method="post" action="{% url 'order_item_add' order.id %}" id="addItem">
                         {% csrf_token %}
-                        <div class="row">
-                            <div class="form-group {% if field.errors %}has-error{% endif %} {% if field.field.required %}required{% endif %}">
-                                <div class="col-md-2 col-md-offset-2 col-lg-2 col-sm-4 col-xs-12">
-                                    <label class="">
-                                        {{ field.label }}
-                                    </label>
-                                </div>
-                                <div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
-                                    {{ field }}
-                                    {% if field.errors %}
-                                        <span class="text-danger">
-                                            {{ field.errors|first }}
-                                        </span>
-                                    {% else %}
-                                        <span class="help-block hint">
-                                            {{ field.help_text }}
-                                        </span>
-                                    {% endif %}
+                        {% for field in form %}
+                            <div class="row">
+                                <div class="form-group {% if field.errors %}has-error{% endif %} {% if field.field.required %}required{% endif %}">
+                                    <div class="col-md-2 col-md-offset-2 col-lg-2 col-sm-4 col-xs-12">
+                                        <label class="">
+                                            {{ field.label }}
+                                        </label>
+                                    </div>
+                                    <div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
+                                        {{ field }}
+                                        {% if field.errors %}
+                                            <span class="text-danger">
+                                                {{ field.errors|first }}
+                                            </span>
+                                        {% else %}
+                                            <span class="help-block hint">
+                                                {{ field.help_text }}
+                                            </span>
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        </form>
-                    </div>
-                    {% endfor %}
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
-                        <button type="button" class="btn btn-primary" id="modalAddItem">{% trans "Save changes" %}</button>
-                    </div>
+                        {% endfor %}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+                    <a href="{% url "order_disp_delete" order.id %}" class="btn btn-primary">{% trans "Save changes" %}</a>
+                </div>
             </div>
         </div>
     </div>
