@@ -89,7 +89,6 @@ def display_repair(request, repair_id):
         raise Http404(_("You are not allowed to be here!"))
 
     repair = get_object_or_404(models.Repair, pk=repair_id)
-    print repair.client.id, request.user.client.id
 
     if Account.objects.get_from_user(request.user).is_client() \
             and not repair.client == request.user.client:
