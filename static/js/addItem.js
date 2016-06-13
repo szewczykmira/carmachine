@@ -5,10 +5,6 @@ var tbody = $('tbody');
 
 $('#modalAddItem').click(function(){
     var frm = $('form');
-    console.log('Click!');
-    console.log(frm.attr('method'));
-    console.log(frm.attr('action'));
-    console.log(frm.serialize());
     $.ajax({
         type: frm.attr('method'),
         url: frm.attr('action'),
@@ -16,7 +12,7 @@ $('#modalAddItem').click(function(){
         success: function(data){
             if(data.success){
                 tbody.append(data.row);
-                $('.price').innerHTML = data.price;
+                $('.price').text(data.price);
                 frm[0].reset();
                 $('#addItem').modal('hide');
             }
