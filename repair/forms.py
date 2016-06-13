@@ -13,3 +13,9 @@ class RepairForm(forms.ModelForm):
         super(RepairForm, self).__init__(*args, **kwargs)
         self.fields['order_date'].help_text = 'YYYY-MM-DD'
         self.fields['receipt_date'].help_text = 'YYYY-MM-DD'
+
+
+class RepairItemForm(forms.ModelForm):
+    class Meta:
+        model = models.RepairItem
+        fields = ['carpart', 'price']

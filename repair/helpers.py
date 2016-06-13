@@ -60,3 +60,27 @@ def generate_row(object, counter, client):
                              price=object.price, url_display=url_display,
                              description=object.description,
                              super=super)
+
+
+ITEM_ROW = """<tr id="object-{id}">
+    <td>
+        {counter}
+    </td>
+    <td>
+        {carpart}
+    </td>
+    <td>
+        {price}
+    </td>
+    <td>
+        <span class="text-danger">
+            <i class="glyphicon glyphicon-trash removeObject" data-id="{id}" data-toggle="modal" data-target="#deleteModal"></i>
+        </span>
+    </td>
+</tr>
+"""
+
+
+def generate_item_row(object, counter):
+    return ITEM_ROW.format(id=object.id, counter=counter,
+                           carpart=object.carpart, price=object.price)

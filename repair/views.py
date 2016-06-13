@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect, get_object_or_404
-from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.http import Http404, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from . import models, forms
-from .helpers import generate_row
+from .helpers import generate_row, generate_item_row
 from accounts.models import Account
 from CarMachine.helper_views import home_view, delete_view
 import json
@@ -100,5 +99,36 @@ def display_repair(request, repair_id):
             and not repair.client == request.user.client:
         raise Http404(_("You are not allowed to be here!"))
 
-    context = {'repair': repair}
+    context = {'repair': repair,
+               'form': forms.RepairItemForm()}
+    context['items'] = context['repair'].get_items()
     return render(request, 'repair/display_repair.html', context)
+
+
+@login_required(login_url='/accounts/login')
+def add_items(request, repair_id):
+    if Account.objects.get_from_user(request.user).is_client() or\
+            not request.user.is_active:
+        raise Http404(_("This is not the road you are looking for!"))
+    if request.method == 'POST' and request.is_ajax():
+        repair = get_object_or_404(models.Repair, pk=repair_id)
+        form = forms.RepairItemForm(request.POST)
+        if form.is_valid():
+            item = form.save(commit=False)
+            item.repair = repair
+            item.save()
+            context = {'row': generate_item_row(item,
+                                                repair.get_items().count()),
+                       'success': True}
+        else:
+            context = {'success': False}
+
+        return HttpResponse(json.dumps(context),
+                            content_type='appliaction/json')
+
+    return HttpResponse("Something went wrong")
+
+
+@login_required(login_url='/accounts/login')
+def delete_items(request):
+    return delete_view(request, models.RepairItem)

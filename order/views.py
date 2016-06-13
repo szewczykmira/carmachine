@@ -96,7 +96,6 @@ def add_items(request, order_id):
             item = form.save(commit=False)
             item.order = order
             item.save()
-            print "saved", item.id
             order.calculate()
             context = {'row': generate_row_item(item,
                                                 order.get_items().count()),
@@ -123,12 +122,9 @@ def delete_items(request):
             object = models.OrderItem.objects.get(id=request.POST['object_id'])
             order = object.order
             object.delete()
-            print "Bedziemy calculowac"
             order.calculate()
             success = True
-            print "Calculujemy!"
         except models.OrderItem.DoesNotExist:
             success = False
-        print "Konec"
         return HttpResponse(json.dumps({'success': success}),
                             content_type='application/json')

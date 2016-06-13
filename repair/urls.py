@@ -10,7 +10,8 @@ urlpatterns = [
     url(r'^edit/(?P<repair_id>\d+)/$', views.add_repair, name="repair_edit"),
     url(r'^(?P<repair_id>\d+)/$', views.display_repair, name="repair_display"),
     url(r'^(?P<repair_id>\d+)/delete/$', views.delete_repair, name="repair_disp_delete"),
-    #url(r'^item/add/(?P<order_id>\d+)/$', views.add_item, name="order_item_add"),
+    url(r'^item/add/(?P<repair_id>\d+)/$', views.add_items, name="repair_item_add"),
     url(r'^delete/$', views.delete_repair, name="repair_delete"),
+    url(r'^item/delete/$', views.delete_items, name="repair_delete_item"),
     url(r'^search/$', views.get_repairs, name="repair_get"),
 ]

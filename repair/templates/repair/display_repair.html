@@ -132,18 +132,20 @@
                         </tr>
                     {% else %}
                         {% for item in items %}
-                            <tr>
+                            <tr id="object-{{ item.id }}">
                                 <td>
                                     {{ forloop.counter }}
                                 </td>
                                 <td>
-                                    {{ item.car_part }}
+                                    {{ item.carpart }}
                                 </td>
                                 <td>
                                     {{ item.price }}
                                 </td>
                                 <td>
-
+                                    <span class="text-danger">
+                                        <i class="glyphicon glyphicon-trash removeObject" data-id="{{ item.id }}" data-toggle="modal" data-target="#deleteModal" title="{% trans "Delete item" %}"></i>
+                                    </span>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -176,10 +178,10 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">{% trans "Add item to order" %}</h4>
+                    <h4 class="modal-title" id="myModalLabel">{% trans "Add item to repair" %}</h4>
                 </div>
                 <div class="modal-body">
-                    <form method="post" action="#" id="addItem">
+                    <form method="post" action="{% url 'repair_item_add' repair.id %}" id="addItem">
                         {% csrf_token %}
                         {% for field in form %}
                             <div class="row">
@@ -208,15 +210,22 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
-                    <a href="#" class="btn btn-primary">{% trans "Save changes" %}</a>
+                    <a href="#" class="btn btn-primary" id="modalAddItem">{% trans "Save changes" %}</a>
                 </div>
             </div>
         </div>
     </div>
+
+    {% include 'delete_modal.html' %}
 {% endblock %}
 
 {% block script %}
     {{ block.super }}
+    <script type="text/javascript">
+    var csrf = "{{ csrf_token }}";
+    var delete_url = "{% url 'repair_delete_item' %}";
+    </script>
     <script src="{% static 'js/field_focus.js' %}"></script>
     <script src="{% static 'js/addItem.js' %}"></script>
+    <script src="{% static 'js/delete_object.js' %}"></script>
 {% endblock %}

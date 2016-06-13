@@ -61,6 +61,5 @@ def generate_row_order(object, counter):
 
 
 def generate_row_item(object, counter):
-    print "generate row", object.id
     return ITEM_ROW.format(id=object.id, counter=counter,
                            cart_part=object.cart_part, price=object.price)

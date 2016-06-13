@@ -4,7 +4,6 @@
 
 var delete_employee_id = null;
 $('.removeObject').on('click', function(){
-    console.log($(this));
     delete_employee_id = $(this).data('id');
 });
 
