@@ -110,7 +110,7 @@
                         </tr>
                     {% else %}
                         {% for item in items %}
-                            <tr>
+                            <tr id="object-{{ item.id }}">
                                 <td>
                                     {{ forloop.counter }}
                                 </td>
@@ -121,7 +121,9 @@
                                     {{ item.price }}
                                 </td>
                                 <td>
-
+                                    <span class="text-danger">
+                                        <i class="glyphicon glyphicon-trash removeObject" data-id="{{ item.id }}" data-toggle="modal" data-target="#deleteModal" title="{% trans "Delete item" %}"></i>
+                                    </span>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -130,6 +132,8 @@
             </table>
         </div>
     </div>
+
+    {% include 'delete_modal.html' %}
 
     <div class="modal fade" id="deleteOrder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
@@ -196,9 +200,10 @@
 {% block script %}
     {{ block.super }}
     <script type="text/javascript">
-    var csrf = '{{ csrf_token }}';
-    var addItemUrl = "{% url 'order_item_add' order.id %}";
+        var csrf ='{{ csrf_token }}';
+        var delete_url = "{% url 'order_item_delete' %}";
     </script>
+    <script src="{% static 'js/delete_object.js' %}"></script>
     <script src="{% static 'js/field_focus.js' %}"></script>
     <script src="{% static 'js/addItem.js' %}"></script>
 {% endblock %}

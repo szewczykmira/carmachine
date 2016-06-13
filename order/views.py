@@ -107,3 +107,8 @@ def add_items(request, order_id):
                             content_type='appliaction/json')
 
     return HttpResponse("Something went wrong")
+
+
+@login_required(login_url='/accounts/login')
+def delete_items(request):
+    return delete_view(request, models.OrderItem)

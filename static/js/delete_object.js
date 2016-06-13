@@ -7,7 +7,7 @@ $('.removeObject').on('click', function(){
     delete_employee_id = $(this).data('id');
 });
 
-$('#deleteModal').on('click', function(){
+$('#modalDelete').on('click', function(){
     $.ajax({
         type: "POST",
         url: delete_url,
