@@ -27,7 +27,7 @@ def home(request, clients=False):
 def add_repair(request, repair_id=None):
     if Account.objects.get_from_user(request.user).is_client() or \
             not request.user.is_active:
-        return Http404(_("You are not allowed to be here!"))
+        raise Http404(_("You are not allowed to be here!"))
 
     if repair_id:
         repair = get_object_or_404(models.Repair, id=repair_id)
@@ -58,8 +58,10 @@ def get_repairs(request):
 
     if Account.objects.get_from_user(request.user).is_client():
         objects = models.Repair.objects.filter(client__account=request.user)
+        client = True
     else:
         objects = models.Repair.objects.all()
+        client = False
     search_val = request.GET['input']
     objects = objects.filter(
         Q(client__account__username__icontains=search_val) |
@@ -73,9 +75,24 @@ def get_repairs(request):
     row_list = []
     i = 1
     for elem in objects:
-        row_list.append(generate_row(elem, i))
+        row_list.append(generate_row(elem, i, client))
         i += 1
     context = {
         'objects': row_list,
     }
     return HttpResponse(json.dumps(context), content_type='application/json')
+
+
+@login_required(login_url='/accounts/login')
+def display_repair(request, repair_id):
+    if not request.user.is_active:
+        raise Http404(_("You are not allowed to be here!"))
+
+    repair = get_object_or_404(models.Repair, pk=repair_id)
+
+    if Account.objects.get_from_user(request.user).is_client() \
+            and repair.client is not request.user.client:
+        raise Http404(_("You are not allowed to be here!"))
+
+    context = {'repair': repair}
+    return render(request, 'repair/display_repair.html', context)

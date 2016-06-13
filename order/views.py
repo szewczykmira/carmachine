@@ -21,7 +21,7 @@ def home(request):
 def add_order(request, order_id=None):
     if Account.objects.get_from_user(request.user).is_client() or \
             not request.user.is_active:
-        return Http404(_("You are not allowed to be here!"))
+        raise Http404(_("You are not allowed to be here!"))
 
     if order_id:
         order = get_object_or_404(models.Order, id=order_id)
@@ -56,7 +56,7 @@ def delete_order(request, order_id=False):
 def display_order(request, order_id):
     if Account.objects.get_from_user(request.user).is_client() or \
             not request.user.is_active:
-        return Http404(_("You are not allowed to be here!"))
+        raise Http404(_("You are not allowed to be here!"))
 
     context = {'order': get_object_or_404(models.Order, id=order_id)}
     context['items'] = context['order'].get_items()

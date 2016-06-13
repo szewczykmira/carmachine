@@ -21,7 +21,7 @@ def home(request):
 def add_provider(request, provider=None):
     if Account.objects.get_from_user(request.user).is_client() or \
             not request.user.is_active:
-        return Http404(_("You are not allowed to be here!"))
+        raise Http404(_("You are not allowed to be here!"))
     if provider:
         provider = get_object_or_404(models.Provider, id=provider)
         form = forms.ProviderForm(request.POST or None, instance=provider)

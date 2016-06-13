@@ -26,24 +26,39 @@ OBJECT_ROW = """<tr id="object-{id}">
         {description}
     </td>
     <td>
-        <a href="{url_edit}">
-            <i class="glyphicon glyphicon-pencil"></i>
+        <a href="{url_display}">
+            <i class="glyphicon glyphicon-share-alt"></i>
         </a>
-        <span class="text-danger">
-            <i class="glyphicon glyphicon-trash removeObject" data-id="{id}" data-toggle="modal" data-target="#deleteModal" title="{title}"></i>
-        </span>
+        {super}
     </td>
 </tr>
 """
 
+SUPERUSER = """
+<a href="{url_edit}">
+    <i class="glyphicon glyphicon-pencil"></i>
+</a>
+<span class="text-danger">
+    <i class="glyphicon glyphicon-trash removeObject" data-id="{id}" data-toggle="modal" data-target="#deleteModal" title="{title}"></i>
+</span>
+"""
 
-def generate_row(object, counter):
+
+
+
+def generate_row(object, counter, client):
+    url_display = reverse('repair_display', kwargs={'repair_id': object.id})
     url_edit = reverse('repair_edit', kwargs={'repair_id': object.id})
+    if client:
+        super = ""
+    else:
+        super = SUPERUSER.format(url_edit=url_edit, title=_("Delete repair"),
+                                 id=object.id)
     return OBJECT_ROW.format(id=object.id, counter=counter,
                              client=unicode(object.client),
                              employee=unicode(object.employee),
                              order_date=object.order_date,
                              receipt_date=object.receipt_date,
-                             price=object.price,
+                             price=object.price, url_display=url_display,
                              description=object.description,
-                             url_edit=url_edit, title=_("Delete repair"))
+                             super=super)

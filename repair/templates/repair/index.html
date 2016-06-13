@@ -88,6 +88,9 @@
                                     {{ object.description }}
                                 </td>
                                 <td>
+                                    <a href="{% url 'repair_display' object.id %}">
+                                        <i class="glyphicon glyphicon-share-alt"></i>
+                                    </a>
                                     {% if not request.user.client %}
                                     <a href="{% url 'repair_edit' object.id %}">
                                         <i class="glyphicon glyphicon-pencil"></i>

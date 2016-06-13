@@ -21,7 +21,7 @@ def home(request):
 def add_part(request, partid=None):
     if Account.objects.get_from_user(request.user).is_client() or \
             not request.user.is_active:
-        return Http404(_("You are not allowed to be here!"))
+        raise Http404(_("You are not allowed to be here!"))
     if partid:
         part = get_object_or_404(models.CarPart, id=partid)
         form = forms.CarPartForm(request.POST or None, instance=part)
