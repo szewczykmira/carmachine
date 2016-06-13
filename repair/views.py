@@ -47,8 +47,14 @@ def add_repair(request, repair_id=None):
 
 
 @login_required(login_url='/accounts/login')
-def delete_repair(request):
-    return delete_view(request, models.Repair)
+def delete_repair(request, repair_id=None):
+    if not repair_id:
+        return delete_view(request, models.Repair)
+    repair = get_object_or_404(models.Repair, id=repair_id)
+    repair.get_items().delete()
+    repair.delete()
+    messages.success(request, _("Repair has been deleted"))
+    return redirect('home_page')
 
 
 @login_required(login_url='/accounts/login')

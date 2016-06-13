@@ -165,7 +165,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
-                    <a href="#" class="btn btn-primary">{% trans "Save changes" %}</a>
+                    <a href="{% url 'repair_disp_delete' repair.id %}" class="btn btn-primary">{% trans "Save changes" %}</a>
                 </div>
             </div>
         </div>

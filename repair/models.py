@@ -26,6 +26,9 @@ class Repair(models.Model):
             verbose_name=_("Description"), 
             blank=True, null=True)
 
+    def get_items(self):
+        return RepairItem.objects.filter(repair=self)
+
 
 class RepairItem(models.Model):
     carpart = models.ForeignKey(
