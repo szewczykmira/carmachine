@@ -44,8 +44,6 @@ SUPERUSER = """
 """
 
 
-
-
 def generate_row(object, counter, client):
     url_display = reverse('repair_display', kwargs={'repair_id': object.id})
     url_edit = reverse('repair_edit', kwargs={'repair_id': object.id})
