@@ -57,5 +57,5 @@ def generate_row_order(object, counter):
 
 
 def generate_row_item(object, counter):
-    return ITEM_ROW.format(counter=counter, car_part=object.car_part,
+    return ITEM_ROW.format(counter=counter, car_part=object.cart_part,
                            price=object.price)

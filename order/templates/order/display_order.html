@@ -101,7 +101,7 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="body">
                     {% if not items %}
                         <tr>
                             <td colspan="4">
@@ -115,7 +115,7 @@
                                     {{ forloop.counter }}
                                 </td>
                                 <td>
-                                    {{ item.car_part }}
+                                    {{ item.cart_part }}
                                 </td>
                                 <td>
                                     {{ item.price }}
@@ -186,7 +186,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
-                    <a href="{% url "order_disp_delete" order.id %}" class="btn btn-primary">{% trans "Save changes" %}</a>
+                    <button type="button" class="btn btn-primary" id="modalAddItem">{% trans "Save changes" %}</button>
                 </div>
             </div>
         </div>
@@ -195,6 +195,10 @@
 
 {% block script %}
     {{ block.super }}
+    <script type="text/javascript">
+    var csrf = '{{ csrf_token }}';
+    var addItemUrl = "{% url 'order_item_add' order.id %}";
+    </script>
     <script src="{% static 'js/field_focus.js' %}"></script>
     <script src="{% static 'js/addItem.js' %}"></script>
 {% endblock %}

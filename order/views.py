@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect, get_object_or_404
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, resolve
 from django.http import Http404, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -85,7 +85,7 @@ def get_orders(request):
 
 
 @login_required(login_url='/accounts/login')
-def add_item(request, order_id):
+def add_items(request, order_id):
     if Account.objects.get_from_user(request.user).is_client() or\
             not request.user.is_active:
         raise Http404(_("This is not the road you are looking for!"))
@@ -93,13 +93,17 @@ def add_item(request, order_id):
         order = get_object_or_404(models.Order, pk=order_id)
         form = forms.OrderItemForm(request.POST)
         if form.is_valid():
-            item = form.save()
+            item = form.save(commit=False)
             item.order = order
             item.save()
             order.calculate()
-            context = {'row': generate_row_item(item, order.get_items().count),
+            context = {'row': generate_row_item(item, order.get_items().count()),
                        'price': order.price,
                        'success': True}
-        context = {'success': False}
+        else:
+            context = {'success': False}
 
-    return HttpResponse(json.dumps(context), content_type='appliaction/json')
+        return HttpResponse(json.dumps(context),
+                            content_type='appliaction/json')
+
+    return HttpResponse("Something went wrong")
