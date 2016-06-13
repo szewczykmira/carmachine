@@ -53,11 +53,15 @@ def delete_repair(request):
 
 @login_required(login_url='/accounts/login')
 def get_repairs(request):
-    if Account.objects.get_from_user(request.user).is_client() or\
-            not request.user.is_active:
+    if not request.user.is_active:
         raise Http404(_("This is not the road you are looking for!"))
+
+    if Account.objects.get_from_user(request.user).is_client():
+        objects = models.Repair.objects.filter(client__account=request.user)
+    else:
+        objects = models.Repair.objects.all()
     search_val = request.GET['input']
-    objects = models.Repair.objects.filter(
+    objects = objects.filter(
         Q(client__account__username__icontains=search_val) |
         Q(client__account__last_name__icontains=search_val) |
         Q(client__account__first_name__icontains=search_val) |
