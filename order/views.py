@@ -91,13 +91,15 @@ def add_items(request, order_id):
         raise Http404(_("This is not the road you are looking for!"))
     if request.method == 'POST' and request.is_ajax():
         order = get_object_or_404(models.Order, pk=order_id)
-        form = forms.OrderItemForm(request.POST)
+        form = forms.OrderItemForm(request.POST, initial={'order': order})
         if form.is_valid():
             item = form.save(commit=False)
             item.order = order
             item.save()
+            print "saved", item.id
             order.calculate()
-            context = {'row': generate_row_item(item, order.get_items().count()),
+            context = {'row': generate_row_item(item,
+                                                order.get_items().count()),
                        'price': order.price,
                        'success': True}
         else:
@@ -111,4 +113,22 @@ def add_items(request, order_id):
 
 @login_required(login_url='/accounts/login')
 def delete_items(request):
-    return delete_view(request, models.OrderItem)
+    if Account.objects.get_from_user(request.user).is_client() or \
+            not request.user.is_active:
+        raise Http404(_("This is not the road you are looking for!"))
+
+    if request.method == 'POST' and request.is_ajax():
+        print request.POST
+        try:
+            object = models.OrderItem.objects.get(id=request.POST['object_id'])
+            order = object.order
+            object.delete()
+            print "Bedziemy calculowac"
+            order.calculate()
+            success = True
+            print "Calculujemy!"
+        except models.OrderItem.DoesNotExist:
+            success = False
+        print "Konec"
+        return HttpResponse(json.dumps({'success': success}),
+                            content_type='application/json')

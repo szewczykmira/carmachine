@@ -31,17 +31,21 @@ OBJECT_ROW = """<tr id="object-{id}">
 </tr>
 """
 
-ITEM_ROW = """<tr>
+ITEM_ROW = """<tr id="object-{id}">
     <td>
         {counter}
     </td>
     <td>
-        {car_part}
+        {cart_part}
     </td>
     <td>
         {price}
     </td>
-    <td></td>
+    <td>
+        <span class="text-danger">
+            <i class="glyphicon glyphicon-trash removeObject" data-id="{id}" data-toggle="modal" data-target="#deleteModal"></i>
+        </span>
+    </td>
 </tr>
 """
 
@@ -57,5 +61,6 @@ def generate_row_order(object, counter):
 
 
 def generate_row_item(object, counter):
-    return ITEM_ROW.format(counter=counter, car_part=object.cart_part,
-                           price=object.price)
+    print "generate row", object.id
+    return ITEM_ROW.format(id=object.id, counter=counter,
+                           cart_part=object.cart_part, price=object.price)
