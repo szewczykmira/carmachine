@@ -86,3 +86,14 @@ class AccountsTestCase(TestCase):
         account = Account.objects.get_from_user(user)
         self.assertTrue(account.is_employee())
 
+    def test_user_is_client(self):
+        user = User.objects.filter(first_name="Diana").first()
+        account = Account.objects.get_from_user(user)
+        self.assertTrue(account.is_client())
+
+    def test_unicode(self):
+        client = Client.objects.get(account__first_name="Diana")
+        employee = Employee.objects.get(account__first_name="Jessica")
+
+        self.assertEqual(unicode(client), unicode(client.account))
+        self.assertEqual(unicode(employee), unicode(employee.account))
