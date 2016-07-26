@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.test import TestCase
-from accounts.models import Client, Employee
+from accounts.models import Client, Employee, Account
 from django.contrib.auth.models import User
 
 TELEPHONE = "123456789"
@@ -47,7 +47,8 @@ class AccountsTestCase(TestCase):
         self.assertEqual(user, employee.account)
 
     def test_create_employee(self):
-        user = User.objects.create_user("charlie", "charlie@nassau.com", "Eleonora")
+        user = User.objects.create_user("charlie", "charlie@nassau.com",
+                "Eleonora")
         employee_count = Employee.objects.count()
         employee = Employee.objects.create(account=user, telephone=TELEPHONE,
                 address="Null", contract_begin="2020-12-12")
@@ -55,4 +56,33 @@ class AccountsTestCase(TestCase):
         self.assertEqual(employee_count + 1, Employee.objects.count())
 
     def test_create_client(self):
-        pass
+        user = User.objects.create_user("james", "james@flint.uk", "miranda")
+        client_count = Client.objects.count()
+        client = Client.objects.create(account=user, telephone=TELEPHONE,
+                address="Sea")
+
+        self.assertEqual("james", client.account.username)
+        self.assertEqual(client_count + 1, Client.objects.count())
+
+    def test_edit_employee(self):
+        employee = Employee.objects.first()
+        contract = employee.contract_begin
+        employee.telephone = "987654321"
+        employee.save()
+        self.assertEqual(contract, employee.contract_begin)
+        self.assertEqual("987654321", employee.telephone)
+
+    def test_edit_client(self):
+        client = Client.objects.first()
+        telephone = client.telephone
+        client.address = "Nassau"
+        client.save()
+
+        self.assertEqual("Nassau", client.address)
+        self.assertEqual(telephone, client.telephone)
+
+    def test_user_is_employee(self):
+        user = User.objects.filter(first_name="Jessica").first()
+        account = Account.objects.get_from_user(user)
+        self.assertTrue(account.is_employee())
+
