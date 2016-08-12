@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from django.test import TestCase
-from accounts.models import Client, Employee, Account
+from django.core.urlresolvers import reverse
+from django.test import TestCase, Client
 from django.contrib.auth.models import User
+from accounts.models import Client, Employee, Account
 
 TELEPHONE = "123456789"
+
 
 class AccountsTestCase(TestCase):
 
@@ -103,3 +105,30 @@ class AccountsTestCase(TestCase):
         user.first_name = "Dianaś"
         user.save()
         self.assertEqual(user.first_name, "Dianaś")
+
+    # View tests
+
+    def test_add_user_get(self):
+        response_client = self.client.get(reverse('add_client'), follow=True)
+        response_employee = self.client.get(reverse('add_employee'),
+                                            follow=True)
+
+        self.assertEqual(response_client.status_code, 200)
+        self.assertEqual(response_employee.status_code, 200)
+        self.assertTemplateUsed(response_client, 'accounts/add_user.html')
+        self.assertTemplateUsed(response_employee, 'accounts/add_user.html')
+
+    def test_add_user_post(self):
+        pass
+
+    def test_login_get(self):
+        response = self.client.get(reverse('login'), follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'accounts/login.html')
+
+    def test_login_post(self):
+        pass
+
+    def test_logout_redirect(self):
+        response = self.client.get(reverse('logout'), follow=True)
+        self.assertEqual(response.status_code, 200)
