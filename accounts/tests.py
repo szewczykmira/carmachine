@@ -97,3 +97,9 @@ class AccountsTestCase(TestCase):
 
         self.assertEqual(unicode(client), unicode(client.account))
         self.assertEqual(unicode(employee), unicode(employee.account))
+
+    def test_accept_polish_chars(self):
+        user = User.objects.filter(first_name="Diana").first()
+        user.first_name = "Dianaś"
+        user.save()
+        self.assertEqual(user.first_name, "Dianaś")
